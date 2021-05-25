@@ -1,0 +1,22 @@
+{
+  "name": "vgutierrez_profile_generator",
+  "version": "1.0.0",
+  "description": "Bootcamp Week 10 homework - Team Profile Generator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vinetteg/VGUTIERREZ_PROFILE_GENERATOR.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vinetteg/VGUTIERREZ_PROFILE_GENERATOR/issues"
+  },
+  "homepage": "https://github.com/vinetteg/VGUTIERREZ_PROFILE_GENERATOR#readme",
+  "dependencies": {
+    "inquirer": "^8.1.0"
+  }
+}
