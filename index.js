@@ -84,14 +84,17 @@ function addEmployee() {
       if (answers.new_employee === "Intern") {
         inquirer.prompt(intern).then(function (internAnswers) {
           console.log(internAnswers);
+          addEmployee();
         });
       } else if (answers.new_employee === "Engineer") {
         inquirer.prompt(engineer).then(function (engineerAnswers) {
           console.log(engineerAnswers);
+          addEmployee();
         });
       } else if (answers.new_employee === "Manager") {
         inquirer.prompt(manager).then(function (managerAnswers) {
           console.log(managerAnswers);
+          addEmployee();
         });
       } else if (answers.new_employee === "No other employees") {
         fs.writeFile("index.html", showPage(answers), (err) =>
@@ -163,3 +166,4 @@ const showPage = (answers) => {
 
   return html;
 };
+addEmployee();
