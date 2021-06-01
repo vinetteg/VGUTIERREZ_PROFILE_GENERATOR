@@ -1,6 +1,29 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 
+const manager = [
+  {
+    type: "input",
+    name: "manager_name",
+    message: "Team manager: What is your name? ",
+  },
+  {
+    type: "input",
+    name: "manager_id",
+    message: "What is your manager ID number?",
+  },
+  {
+    type: "input",
+    name: "manager_email",
+    message: "What your email address?",
+  },
+  {
+    type: "input",
+    name: "manager_number",
+    message: "What is your phone number?",
+  },
+];
+
 const engineer = [
   {
     type: "input",
@@ -21,12 +44,6 @@ const engineer = [
     type: "input",
     name: "engineer_email",
     message: "What is the engineer's email?",
-  },
-  {
-    type: "list",
-    name: "new_employee",
-    message: "Please choose the next type of employee you would like to add:",
-    choices: ["Engineer", "Intern", "No other employees"],
   },
 ];
 
@@ -51,58 +68,40 @@ const intern = [
     name: "intern_email",
     message: "What is the intern's email?",
   },
-  {
-    type: "list",
-    name: "new_employee1",
-    message: "Please choose the next type of employee you would like to add:",
-    choices: ["Engineer", "Intern", "No other employees"],
-  },
 ];
-
-inquirer
-  .prompt([
-    {
-      type: "input",
-      name: "manager_name",
-      message: "Team manager: What is your name? ",
-    },
-    {
-      type: "input",
-      name: "manager_id",
-      message: "What is your manager ID number?",
-    },
-    {
-      type: "input",
-      name: "manager_email",
-      message: "What your email address?",
-    },
-    {
-      type: "input",
-      name: "manager_number",
-      message: "What is your phone number?",
-    },
-    {
-      type: "list",
-      name: "new_employee",
-      message: "Please choose the next type of employee you would like to add:",
-      choices: ["Engineer", "Intern", "No other employees"],
-    },
-  ])
-  .then((answers) => {
-    if (answers.new_employee === "Intern") {
-      inquirer.prompt(intern).then(function (internAnswers) {
-        console.log(internAnswers);
-      });
-    } else if (answers.new_employee === "Engineer") {
-      inquirer.prompt(engineer).then(function (engineerAnswers) {
-        console.log(engineerAnswers);
-      });
-    } else if (answers.new_employee === "No other employees") {
-      fs.writeFile("index.html", showPage(answers), (err) =>
-        err ? console.log(err) : console.log("Successfully created index.html!")
-      );
-    }
-  });
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "new_employee",
+        message:
+          "Please choose the next type of employee you would like to add:",
+        choices: ["Manager", "Engineer", "Intern", "No other employees"],
+      },
+    ])
+    .then((answers) => {
+      if (answers.new_employee === "Intern") {
+        inquirer.prompt(intern).then(function (internAnswers) {
+          console.log(internAnswers);
+        });
+      } else if (answers.new_employee === "Engineer") {
+        inquirer.prompt(engineer).then(function (engineerAnswers) {
+          console.log(engineerAnswers);
+        });
+      } else if (answers.new_employee === "Manager") {
+        inquirer.prompt(manager).then(function (managerAnswers) {
+          console.log(managerAnswers);
+        });
+      } else if (answers.new_employee === "No other employees") {
+        fs.writeFile("index.html", showPage(answers), (err) =>
+          err
+            ? console.log(err)
+            : console.log("Successfully created index.html!")
+        );
+      }
+    });
+}
 
 const showPage = (answers) => {
   const html = `<!DOCTYPE html>
