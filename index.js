@@ -97,7 +97,7 @@ function addEmployee() {
           addEmployee();
         });
       } else if (answers.new_employee === "No other employees") {
-        fs.writeFile("index.html", showPage(answers), (err) =>
+        fs.writeFileSync("index.html", showPage(answers), (err) =>
           err
             ? console.log(err)
             : console.log("Successfully created index.html!")
@@ -107,6 +107,7 @@ function addEmployee() {
 }
 
 const showPage = (answers) => {
+  console.log(answers);
   const html = `<!DOCTYPE html>
 <html lang="en">
   <head>
