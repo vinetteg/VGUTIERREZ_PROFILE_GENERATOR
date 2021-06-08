@@ -1,5 +1,11 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
+const Employee = require("./lib/Employee");
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
+
+const employees = [];
 
 const manager = [
   {
@@ -9,17 +15,17 @@ const manager = [
   },
   {
     type: "input",
-    name: "manager_id",
-    message: "What is your manager ID number?",
+    name: "id",
+    message: "What is your ID number?",
   },
   {
     type: "input",
-    name: "manager_email",
+    name: "email",
     message: "What your email address?",
   },
   {
     type: "input",
-    name: "manager_number",
+    name: "officeNumber",
     message: "What is your phone number?",
   },
 ];
@@ -27,22 +33,22 @@ const manager = [
 const engineer = [
   {
     type: "input",
-    name: "engineer_name",
+    name: "name",
     message: "What is the engineer's name?",
   },
   {
     type: "input",
-    name: "engineer_id",
+    name: "id",
     message: "What is the engineer's ID number?",
   },
   {
     type: "input",
-    name: "engineer_github",
+    name: "github",
     message: "What is the engineers Github handle?",
   },
   {
     type: "input",
-    name: "engineer_email",
+    name: "email",
     message: "What is the engineer's email?",
   },
 ];
@@ -50,25 +56,48 @@ const engineer = [
 const intern = [
   {
     type: "input",
-    name: "intern_name",
+    name: "name",
     message: "What is the intern's name?",
   },
   {
     type: "input",
-    name: "intern_id",
+    name: "id",
     message: "What is the intern's ID number?",
   },
   {
-    type: "input",
-    name: "intern_github",
-    message: "What is the intern's Github handle?",
+    ype: "input",
+    name: "email",
+    message: "What is the intern's email?",
   },
   {
     type: "input",
-    name: "intern_email",
-    message: "What is the intern's email?",
+    name: "school",
+    message: "What is the intern's school?",
   },
 ];
+
+function addManager() {
+  inquirer
+    .prompt([
+      {
+        type: "confirm",
+        name: "choice",
+        message:
+          "Ready to create a profile page for your team? Please add your information first.",
+      },
+    ])
+    .then((val) => {
+      if (val.choice) {
+        inquirer.prompt(manager).then(function (managerAnswers) {
+          console.log(managerAnswers);
+          addEmployee();
+        });
+      } else {
+        this.quit();
+      }
+    });
+}
+
 function addEmployee() {
   inquirer
     .prompt([
@@ -77,27 +106,30 @@ function addEmployee() {
         name: "new_employee",
         message:
           "Please choose the next type of employee you would like to add:",
-        choices: ["Manager", "Engineer", "Intern", "No other employees"],
+        choices: ["Engineer", "Intern", "No other employees"],
       },
     ])
     .then((answers) => {
       if (answers.new_employee === "Intern") {
         inquirer.prompt(intern).then(function (internAnswers) {
+          const newIntern = new Intern();
+          // const employee1 = new Intern(name, id,
+          //   internAnswers.intern_name,
+          //   1,
+          //   "janedoe@gmail.com"
+          // );
+          employees.push(newIntern);
           console.log(internAnswers);
           addEmployee();
         });
       } else if (answers.new_employee === "Engineer") {
         inquirer.prompt(engineer).then(function (engineerAnswers) {
+          employees.push(employee1);
           console.log(engineerAnswers);
           addEmployee();
         });
-      } else if (answers.new_employee === "Manager") {
-        inquirer.prompt(manager).then(function (managerAnswers) {
-          console.log(managerAnswers);
-          addEmployee();
-        });
       } else if (answers.new_employee === "No other employees") {
-        fs.writeFileSync("index.html", showPage(answers), (err) =>
+        fs.writeFile("index.html", showPage(employees), (err) =>
           err
             ? console.log(err)
             : console.log("Successfully created index.html!")
@@ -106,8 +138,8 @@ function addEmployee() {
     });
 }
 
-const showPage = (answers) => {
-  console.log(answers);
+const showPage = (employees) => {
+  console.log(employees);
   const html = `<!DOCTYPE html>
 <html lang="en">
   <head>
@@ -167,4 +199,4 @@ const showPage = (answers) => {
 
   return html;
 };
-addEmployee();
+addManager();
