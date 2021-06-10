@@ -4,6 +4,7 @@ const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const { rejects } = require("assert");
 
 const employees = [];
 
@@ -124,79 +125,119 @@ function addEmployee() {
         });
       } else if (answers.new_employee === "Engineer") {
         inquirer.prompt(engineer).then(function (engineerAnswers) {
-          employees.push(employee1);
+          const newEngineer = new Engineer();
+          employees.push(newEngineer);
           console.log(engineerAnswers);
           addEmployee();
         });
       } else if (answers.new_employee === "No other employees") {
-        fs.writeFile("index.html", showPage(employees), (err) =>
-          err
-            ? console.log(err)
-            : console.log("Successfully created index.html!")
-        );
+        showHtml();
       }
     });
 }
 
-const showPage = (employees) => {
-  console.log(employees);
-  const html = `<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    />
-    <title>Employee Page</title>
-  </head>
-  <body>
-    <div class="jumbotron jumbotron-fluid">
-      <div class="container">
-        <h1 class="display-4">My Team</h1>
-      </div>
-    </div>
+function showHtml(fullTeam) {
+  const showPage = (fullTeam) => {
+    const html = `<!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link
+        rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      />
+      <title>Employee Page</title>
+    </head>
+    <body>
+      <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+          <h1 class="display-4">My Team</h1>
+        </div>
+      </div>`;
 
-    <div class="card" style="width: 18rem">
+    fs.writeFile("index.html", createCard(fullTeam), (err) =>
+      err ? console.log(err) : console.log("Successfully created index.html!")
+    );
+    return html;
+  };
+  showPage();
+}
+
+function createCard(fullTeam) {
+  var fullTeam = employees.length;
+  var i = 0;
+
+  employees.forEach((member) => {
+    const name = member.getName();
+    const id = member.getId();
+    const role = member.getRole();
+    const email = member.getEmail();
+    const htmlPt2 = "";
+
+    if (role === "Manager") {
+      const officeNumber = member.getOfficeNumber();
+      const htmlPt2 = `    <div class="card" style="width: 18rem">
       <div class="card-body">
-        <h5 class="card-title">${answers.manager_name}</h5>
+        <h5 class="card-title">${name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-        <p class="card-text">#${answers.manager_id}</p>
-        <a href="#" class="card-link">${answers.manager_email} </a>
-        <a href="#" class="card-text">Phone:${answers.manager_number} </a>
+        <p class="card-text">#${id}</p>
+        <a href="#" class="card-link">${email} </a>
+        <a href="#" class="card-text">Phone:${officeNumber} </a>
       </div>
-    </div>
-
-    <div class="card" style="width: 18rem">
+    </div>`;
+    } else if (role === "Intern") {
+      const school = member.getSchool();
+      const htmlPt2 = `
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">#${name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">#${answers.intern_name}</h6>
+          <p class="card-text">
+            #${id} </p>
+            <a href="#" class="card-link">#${email} </a>
+            <a href="#" class="card-link">${school} </a>
+          </p>
+        </div>
+      </div>`;
+    } else if (role === "Engineer") {
+      const github = member.github();
+      const htmlPt2 = `    <div class="card" style="width: 18rem">
       <div class="card-body">
-        <h5 class="card-title">#${answers.intern_name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">#${answers.intern_name}</h6>
-        <p class="card-text">
-          #${answers.intern_id} </p>
-          <a href="#" class="card-link">#${answers.intern_email} </a>
-          <a href="#" class="card-link">https://github.com/${answers.intern_github} </a>
-        </p>
-      </div>
-    </div>
-
-    <div class="card" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title">#${answers.engineer_name}</h5>
+        <h5 class="card-title">#${name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">#${answers.engineer_name}</h6>
         <p class="card-text">
-          #${answers.engineer_id} /p>
-          <a href="#" class="card-link">#${answers.engineer_email} </a>
-          <a href="#" class="card-link">#https://github.com/${answers.engineer_github} </a>
+          #${id} /p>
+          <a href="#" class="card-link">#${email} </a>
+          <a href="#" class="card-link">#https://github.com/${github} </a>
         </p>
       </div>
-    </div>
+    </div>`;
+    }
+    fs.appendFile("index.html", htmlPt2, function (err) {
+      if (err) {
+        return reject(err);
+      }
+      i++;
+      if (i === fullTeam) {
+        console.log("html created successfully!");
+        startHtml();
+      }
+    });
+  });
+}
 
+function startHtml() {
+  const htmlPt3 = `
   </body>
-</html>
-`;
+  </html>`;
 
-  return html;
-};
+  fs.appendFile("index.html", htmlPt3, function (err) {
+    if (err) {
+      return reject(err);
+    }
+  });
+}
+
 addManager();
