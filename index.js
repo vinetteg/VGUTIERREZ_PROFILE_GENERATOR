@@ -131,7 +131,7 @@ function addEmployee() {
           addEmployee();
         });
       } else if (answers.new_employee === "No other employees") {
-        showHtml();
+        showHtml(employees);
       }
     });
 }
@@ -157,12 +157,12 @@ function showHtml(fullTeam) {
         </div>
       </div>`;
 
-    fs.writeFile("index.html", createCard(fullTeam), (err) =>
+    fs.writeFile("index.html", `${html}\n${createCard(fullTeam)}`, (err) =>
       err ? console.log(err) : console.log("Successfully created index.html!")
     );
     return html;
   };
-  showPage();
+  showPage(fullTeam);
 }
 
 function createCard(fullTeam) {
@@ -178,7 +178,7 @@ function createCard(fullTeam) {
 
     if (role === "Manager") {
       const officeNumber = member.getOfficeNumber();
-      const htmlPt2 = `    <div class="card" style="width: 18rem">
+      htmlPt2 = `    <div class="card" style="width: 18rem">
       <div class="card-body">
         <h5 class="card-title">${name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
@@ -187,13 +187,14 @@ function createCard(fullTeam) {
         <a href="#" class="card-text">Phone:${officeNumber} </a>
       </div>
     </div>`;
+      return createCard;
     } else if (role === "Intern") {
       const school = member.getSchool();
-      const htmlPt2 = `
+      htmlPt2 = `
       <div class="card" style="width: 18rem">
         <div class="card-body">
           <h5 class="card-title">#${name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">#${answers.intern_name}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
           <p class="card-text">
             #${id} </p>
             <a href="#" class="card-link">#${email} </a>
@@ -201,19 +202,21 @@ function createCard(fullTeam) {
           </p>
         </div>
       </div>`;
+      return createCard;
     } else if (role === "Engineer") {
       const github = member.github();
-      const htmlPt2 = `    <div class="card" style="width: 18rem">
+      htmlPt2 = `    <div class="card" style="width: 18rem">
       <div class="card-body">
         <h5 class="card-title">#${name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">#${answers.engineer_name}</h6>
+        <h6 class="card-subtitle mb-2 text-muted">#Engineer</h6>
         <p class="card-text">
-          #${id} /p>
+          #${id} </p>
           <a href="#" class="card-link">#${email} </a>
           <a href="#" class="card-link">#https://github.com/${github} </a>
         </p>
       </div>
     </div>`;
+      return createCard;
     }
     fs.appendFile("index.html", htmlPt2, function (err) {
       if (err) {
