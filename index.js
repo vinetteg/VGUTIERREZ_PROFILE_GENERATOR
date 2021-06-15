@@ -4,14 +4,13 @@ const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
-const { rejects } = require("assert");
 
 const employees = [];
 
 const manager = [
   {
     type: "input",
-    name: "manager_name",
+    name: "name",
     message: "Team manager: What is your name? ",
   },
   {
@@ -90,6 +89,13 @@ function addManager() {
     .then((val) => {
       if (val.choice) {
         inquirer.prompt(manager).then(function (managerAnswers) {
+          const newManager = new Manager(
+            managerAnswers.name,
+            managerAnswers.id,
+            managerAnswers.email,
+            managerAnswers.officeNumber
+          );
+          employees.push(newManager);
           console.log(managerAnswers);
           addEmployee();
         });
@@ -99,7 +105,7 @@ function addManager() {
     });
 }
 
-function addEmployee() {
+async function addEmployee() {
   inquirer
     .prompt([
       {
@@ -131,14 +137,90 @@ function addEmployee() {
           addEmployee();
         });
       } else if (answers.new_employee === "No other employees") {
-        showHtml(employees);
+        showHtml();
+        // console.log(showHtml());
       }
     });
 }
+let htmlPt2 = "";
+function createCard() {
+  var fullTeam = employees.length;
+  var i = 0;
 
-function showHtml(fullTeam) {
-  const showPage = (fullTeam) => {
-    const html = `<!DOCTYPE html>
+  employees.forEach((member) => {
+    // console.log(member);
+    const name = member.getName();
+    const id = member.getId();
+    const role = member.getRole();
+    const email = member.getEmail();
+
+    if (role === "Manager") {
+      const officeNumber = member.getOfficeNumber();
+      htmlPt2 =
+        htmlPt2 +
+        `    <div class="card" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title">${name}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
+        <p class="card-text">#${id}</p>
+        <a href="#" class="card-link">${email} </a>
+        <a href="#" class="card-text">Phone:${officeNumber} </a>
+      </div>
+    </div>`;
+      // console.log(htmlPt2);
+    } else if (role === "Intern") {
+      const school = member.getSchool();
+      htmlPt2 =
+        htmlPt2 +
+        `
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">#${name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
+          <p class="card-text">
+            #${id} </p>
+            <a href="#" class="card-link">#${email} </a>
+            <a href="#" class="card-link">${school} </a>
+          </p>
+        </div>
+      </div>`;
+      // return htmlPt2;
+    } else if (role === "Engineer") {
+      const github = member.getGithub();
+      htmlPt2 =
+        htmlPt2 +
+        `    <div class="card" style="width: 18rem">
+      <div class="card-body">
+        <h5 class="card-title">#${name}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">#Engineer</h6>
+        <p class="card-text">
+          #${id} </p>
+          <a href="#" class="card-link">#${email} </a>
+          <a href="#" class="card-link">#https://github.com/${github} </a>
+        </p>
+      </div>
+    </div>`;
+      // return htmlPt2;
+    }
+    // fs.appendFile("index.html", htmlPt2, function (err) {
+    //   if (err) {
+    //     return reject(err);
+    //   }
+    //   i++;
+    //   if (i === fullTeam) {
+    //     console.log("html created successfully!");
+    //     startHtml();
+    //   }
+    // });
+    // console.log(htmlPt2);
+  });
+  return htmlPt2;
+}
+
+async function showHtml() {
+  const team = await createCard();
+  // console.log(team);
+  let html = `<!DOCTYPE html>
   <html lang="en">
     <head>
       <meta charset="UTF-8" />
@@ -154,93 +236,27 @@ function showHtml(fullTeam) {
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
           <h1 class="display-4">My Team</h1>
+          ${team}
         </div>
-      </div>`;
-
-    fs.writeFile("index.html", `${html}\n${createCard(fullTeam)}`, (err) =>
-      err ? console.log(err) : console.log("Successfully created index.html!")
-    );
-    return html;
-  };
-  showPage(fullTeam);
-}
-
-function createCard(fullTeam) {
-  var fullTeam = employees.length;
-  var i = 0;
-
-  employees.forEach((member) => {
-    const name = member.getName();
-    const id = member.getId();
-    const role = member.getRole();
-    const email = member.getEmail();
-    const htmlPt2 = "";
-
-    if (role === "Manager") {
-      const officeNumber = member.getOfficeNumber();
-      htmlPt2 = `    <div class="card" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title">${name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-        <p class="card-text">#${id}</p>
-        <a href="#" class="card-link">${email} </a>
-        <a href="#" class="card-text">Phone:${officeNumber} </a>
       </div>
-    </div>`;
-      return createCard;
-    } else if (role === "Intern") {
-      const school = member.getSchool();
-      htmlPt2 = `
-      <div class="card" style="width: 18rem">
-        <div class="card-body">
-          <h5 class="card-title">#${name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
-          <p class="card-text">
-            #${id} </p>
-            <a href="#" class="card-link">#${email} </a>
-            <a href="#" class="card-link">${school} </a>
-          </p>
-        </div>
-      </div>`;
-      return createCard;
-    } else if (role === "Engineer") {
-      const github = member.github();
-      htmlPt2 = `    <div class="card" style="width: 18rem">
-      <div class="card-body">
-        <h5 class="card-title">#${name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">#Engineer</h6>
-        <p class="card-text">
-          #${id} </p>
-          <a href="#" class="card-link">#${email} </a>
-          <a href="#" class="card-link">#https://github.com/${github} </a>
-        </p>
-      </div>
-    </div>`;
-      return createCard;
-    }
-    fs.appendFile("index.html", htmlPt2, function (err) {
-      if (err) {
-        return reject(err);
-      }
-      i++;
-      if (i === fullTeam) {
-        console.log("html created successfully!");
-        startHtml();
-      }
-    });
-  });
+      </body>
+      </html>`;
+  // return html;
+  fs.writeFile("index.html", html, (err) =>
+    err ? console.log(err) : console.log("Successfully created index.html!")
+  );
 }
 
-function startHtml() {
-  const htmlPt3 = `
-  </body>
-  </html>`;
+// function startHtml() {
+//   const htmlPt3 = `
+//   </body>
+//   </html>`;
 
-  fs.appendFile("index.html", htmlPt3, function (err) {
-    if (err) {
-      return reject(err);
-    }
-  });
-}
+//   fs.appendFile("index.html", htmlPt3, function (err) {
+//     if (err) {
+//       return reject(err);
+//     }
+//   });
+// }
 
 addManager();
