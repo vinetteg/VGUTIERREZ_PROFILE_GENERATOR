@@ -119,7 +119,13 @@ async function addEmployee() {
     .then((answers) => {
       if (answers.new_employee === "Intern") {
         inquirer.prompt(intern).then(function (internAnswers) {
-          const newIntern = new Intern();
+          const newIntern = new Intern(
+            internAnswers.name,
+            internAnswers.id,
+            internAnswers.email,
+            internAnswers.school
+          );
+
           // const employee1 = new Intern(name, id,
           //   internAnswers.intern_name,
           //   1,
@@ -131,7 +137,12 @@ async function addEmployee() {
         });
       } else if (answers.new_employee === "Engineer") {
         inquirer.prompt(engineer).then(function (engineerAnswers) {
-          const newEngineer = new Engineer();
+          const newEngineer = new Engineer(
+            engineerAnswers.name,
+            engineerAnswers.id,
+            engineerAnswers.email,
+            engineerAnswers.github
+          );
           employees.push(newEngineer);
           console.log(engineerAnswers);
           addEmployee();
@@ -162,7 +173,7 @@ function createCard() {
       <div class="card-body">
         <h5 class="card-title">${name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-        <p class="card-text">#${id}</p>
+        <p class="card-text">Employee ID#${id}</p>
         <a href="#" class="card-link">${email} </a>
         <a href="#" class="card-text">Phone:${officeNumber} </a>
       </div>
@@ -175,7 +186,7 @@ function createCard() {
         `
       <div class="card" style="width: 18rem">
         <div class="card-body">
-          <h5 class="card-title">#${name}</h5>
+          <h5 class="card-title">Employee ID#${name}</h5>
           <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
           <p class="card-text">
             #${id} </p>
@@ -194,7 +205,7 @@ function createCard() {
         <h5 class="card-title">#${name}</h5>
         <h6 class="card-subtitle mb-2 text-muted">#Engineer</h6>
         <p class="card-text">
-          #${id} </p>
+          Employee ID#${id} </p>
           <a href="#" class="card-link">#${email} </a>
           <a href="#" class="card-link">#https://github.com/${github} </a>
         </p>
