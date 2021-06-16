@@ -17,13 +17,13 @@ This project is designed to help the manager of any team easily create a team pr
 
 <a name="installation"></a>
 
--
+- In order to run this the user will need to run 'npm i' in order to install dependencies used.
 
 # Usage
 
 <a name="usage"></a>
 
--
+- This command-line application can be used by a team manager in order to easily create a team .html page.
 
 # License
 
@@ -41,7 +41,7 @@ This project is designed to help the manager of any team easily create a team pr
 
 <a name="test-instructions"></a>
 
-- In order to run the Team Profile, first install the npm dependencies within the Terminal. Once that is complete, run node.js on the file and the questions will begin to run.
+- In order to run the Team Profile, first install the npm dependencies within the Terminal. Once that is complete, run 'node index.js' on the file and the questions will begin to run.
 
 # Questions
 

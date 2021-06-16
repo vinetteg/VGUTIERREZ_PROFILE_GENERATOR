@@ -169,11 +169,11 @@ function createCard() {
       const officeNumber = member.getOfficeNumber();
       htmlPt2 =
         htmlPt2 +
-        `    <div class="card" style="width: 18rem">
+        `    <div class="card d-flex justify-content-center float-left .bg-primary" style="width: 18rem">
       <div class="card-body">
-        <h5 class="card-title">${name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">Manager</h6>
-        <p class="card-text">Employee ID#${id}</p>
+        <h5 class="card-title text-center">${name}</h5>
+        <h6 class="card-subtitle mb-2 text-muted text-center">Manager</h6>
+        <p class="card-text">Employee ID #: ${id}</p>
         <a href="#" class="card-link">${email} </a>
         <a href="#" class="card-text">Phone:${officeNumber} </a>
       </div>
@@ -184,14 +184,14 @@ function createCard() {
       htmlPt2 =
         htmlPt2 +
         `
-      <div class="card" style="width: 18rem">
-        <div class="card-body">
-          <h5 class="card-title">Employee ID#${name}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">Intern</h6>
+      <div class="card d-flex justify-content-center float-right" style="width: 18rem">
+        <div class="card-body ">
+          <h5 class="card-title text-center">${name}</h5>
+          <h6 class="card-subtitle mb-2 text-muted text-center">Intern</h6>
           <p class="card-text">
-            #${id} </p>
-            <a href="#" class="card-link">#${email} </a>
-            <a href="#" class="card-link">${school} </a>
+            Employee ID #: ${id} </p>
+            <a href="#" class="card-link">Email: ${email} </a>
+            <a href="#" class="card-link">School: ${school} </a>
           </p>
         </div>
       </div>`;
@@ -200,14 +200,14 @@ function createCard() {
       const github = member.getGithub();
       htmlPt2 =
         htmlPt2 +
-        `    <div class="card" style="width: 18rem">
+        `    <div class="card d-flex justify-content-center float-center " style="width: 18rem">
       <div class="card-body">
-        <h5 class="card-title">#${name}</h5>
-        <h6 class="card-subtitle mb-2 text-muted">#Engineer</h6>
+        <h5 class="card-title text-center ">${name}</h5>
+        <h6 class="card-subtitle mb-2 text-muted text-center">#Engineer</h6>
         <p class="card-text">
-          Employee ID#${id} </p>
-          <a href="#" class="card-link">#${email} </a>
-          <a href="#" class="card-link">#https://github.com/${github} </a>
+          Employee ID #: ${id} </p>
+          <a href="#" class="card-link">Email: ${email} </a>
+          <a href="#" class="card-link">Github: https://github.com/${github} </a>
         </p>
       </div>
     </div>`;
@@ -246,10 +246,11 @@ async function showHtml() {
     <body>
       <div class="jumbotron jumbotron-fluid">
         <div class="container">
-          <h1 class="display-4">My Team</h1>
-          ${team}
+          <h1 class="display-4 text-center">My Team</h1>
+          
         </div>
       </div>
+      ${team}
       </body>
       </html>`;
   // return html;
