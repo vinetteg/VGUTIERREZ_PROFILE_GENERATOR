@@ -169,7 +169,7 @@ function createCard() {
       const officeNumber = member.getOfficeNumber();
       htmlPt2 =
         htmlPt2 +
-        `    <div class="card d-flex justify-content-center float-left .bg-primary" style="width: 18rem">
+        `    <div class="card d-flex justify-content-center" style="width: 18rem">
       <div class="card-body">
         <h5 class="card-title text-center">${name}</h5>
         <h6 class="card-subtitle mb-2 text-muted text-center">Manager</h6>
@@ -184,7 +184,7 @@ function createCard() {
       htmlPt2 =
         htmlPt2 +
         `
-      <div class="card d-flex justify-content-center float-right" style="width: 18rem">
+      <div class="card d-flex justify-content-center" style="width: 18rem">
         <div class="card-body ">
           <h5 class="card-title text-center">${name}</h5>
           <h6 class="card-subtitle mb-2 text-muted text-center">Intern</h6>
@@ -200,7 +200,7 @@ function createCard() {
       const github = member.getGithub();
       htmlPt2 =
         htmlPt2 +
-        `    <div class="card d-flex justify-content-center float-center " style="width: 18rem">
+        `    <div class="card d-flex justify-content-center" style="width: 18rem">
       <div class="card-body">
         <h5 class="card-title text-center ">${name}</h5>
         <h6 class="card-subtitle mb-2 text-muted text-center">#Engineer</h6>

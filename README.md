@@ -43,6 +43,11 @@ This project is designed to help the manager of any team easily create a team pr
 
 - In order to run the Team Profile, first install the npm dependencies within the Terminal. Once that is complete, run 'node index.js' on the file and the questions will begin to run.
 
+Demo:
+
+![Video Image](videoimage.png) <br>
+[![Video demonstration using VS Code Integrated Terminal]](https://youtu.be/_kb5rKS2s0k)
+
 # Questions
 
 <a name="questions"></a>
